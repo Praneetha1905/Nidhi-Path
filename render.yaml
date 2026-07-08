@@ -1,0 +1,34 @@
+# ============================================================
+#  Render Blueprint for Nidhi Path SmartCRM
+#  ------------------------------------------------------------
+#  This expects the contents of the "nidhipath-crm/" folder to be
+#  the root of the repository you push to GitHub (so this file sits
+#  at the repo root). The Express backend serves both the /api
+#  routes and the static frontend, so a single web service is enough.
+#
+#  In Render:  New +  →  Blueprint  →  pick this repo.
+#  Then fill in the four "sync: false" secrets in the dashboard.
+# ============================================================
+services:
+  - type: web
+    name: nidhipath-crm
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Secrets — set these in the Render dashboard (never commit them):
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      # Comma-separated allowed browser origins; usually just your Render URL.
+      - key: ALLOWED_ORIGINS
+        sync: false
